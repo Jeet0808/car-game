@@ -132,7 +132,7 @@ function App() {
       <h1>Focuse bro .</h1>
       <Game />
 
-      <a href='https://teal-froyo-c93f19.netlify.app/'>Powered by JLSS</a>
+      <a href='https://jlss.netlify.app/'>Powered by JLSS</a>
 
     </div>
 
