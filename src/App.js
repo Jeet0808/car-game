@@ -104,7 +104,7 @@ const Game = () => {
     }, 20);
 
     return () => clearInterval(interval);
-  }, [obstacles, carPosition, carXPosition, gameOver, score, obstacleBaseSpeed]);
+  }, [gameOver, obstacles, carPosition, carXPosition, score, obstacleBaseSpeed, obstacleImages]); // Correct dependency array
 
   // Restart game handler
   const restartGame = () => {
