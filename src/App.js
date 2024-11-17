@@ -2,14 +2,32 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 
 const Game = () => {
-  const [carPosition, setCarPosition] = useState(250); // Vertical position of the car
-  const [carXPosition, setCarXPosition] = useState(200); // Horizontal position of the car
-  const [obstacles, setObstacles] = useState([]); // Array of obstacles
-  const [gameOver, setGameOver] = useState(false); // Game over flag
-  const [score, setScore] = useState(0); // Game score
+  var [carPosition, setCarPosition] = useState(250); // Vertical position of the car
+  var [carXPosition, setCarXPosition] = useState(200); // Horizontal position of the car
+  var [obstacles, setObstacles] = useState([]); // Array of obstacles
+  var [gameOver, setGameOver] = useState(false); // Game over flag
+  var [score, setScore] = useState(0); // Game score
+  var [obstacleBaseSpeed, setObstacleBaseSpeed] = useState(2);
 
-  const carSpeed = 30; // Car speed
-  const obstacleBaseSpeed = 2; // Base speed for obstacles
+  const carSpeed = 25; // Car speed
+
+
+
+
+  // Array of obstacle image paths
+  const obstacleImages = [
+    '/assets/obstacle10.gif',
+    '/assets/obstacle11.gif',
+    '/assets/obstacle12.gif',
+    '/assets/obstacle13.gif',
+    '/assets/obstacle14.gif',
+    '/assets/obstacle15.gif',
+    '/assets/obstacle16.gif',
+    '/assets/obstacle17.gif',
+    '/assets/obstacle18.gif',
+    '/assets/obstacle19.gif',
+    '/assets/obstacle20.gif',
+  ];
 
   // Handle the car movement
   useEffect(() => {
@@ -22,7 +40,7 @@ const Game = () => {
         setCarPosition(carPosition + carSpeed); // Move car down
       } else if (e.key === 'ArrowLeft' && carXPosition > 0) {
         setCarXPosition(carXPosition - carSpeed); // Move car left
-      } else if (e.key === 'ArrowRight' && carXPosition < 450) {
+      } else if (e.key === 'ArrowRight' && carXPosition < 750) {
         setCarXPosition(carXPosition + carSpeed); // Move car right
       }
     };
@@ -39,24 +57,35 @@ const Game = () => {
     if (gameOver) return;
 
     const interval = setInterval(() => {
+      
+        
       if (obstacles.length < 5) {
+
+        // Increment obstacle speed every second
+       
+
         setObstacles((prevObstacles) => [
           ...prevObstacles,
           {
-            x: Math.random() * 500 + 50, // Random horizontal position
+            x: Math.random() * 700 + 50, // Random horizontal position
             y: -50, // Start just above the screen
             width: 50 + Math.random() * 50, // Random width
             height: 50 + Math.random() * 50, // Random height
             speed: obstacleBaseSpeed + Math.random() * 2, // Random speed
+            image: obstacleImages[Math.floor(Math.random() * obstacleImages.length)], // Random image
+
           },
         ]);
       }
 
       setObstacles((prevObstacles) => {
+        
+      console.log(obstacleBaseSpeed);
         return prevObstacles
           .map((obstacle) => {
             if (obstacle.y >= 500) {
               return {
+                
                 ...obstacle,
                 y: -50, // Reset position to top
                 x: Math.random() * 500 + 50, // New random horizontal position
@@ -81,12 +110,15 @@ const Game = () => {
         }
       }
 
-      if (!gameOver) setScore(score + 1);
-
+      if (!gameOver){
+        setScore(score + 1);
+        setObstacleBaseSpeed(obstacleBaseSpeed+0.002);
+      
+      } 
     }, 20);
 
     return () => clearInterval(interval);
-  }, [obstacles, carPosition, carXPosition, gameOver, score]);
+  }, [obstacles, carPosition, carXPosition, gameOver, score,obstacleBaseSpeed]);
 
   return (
     <div className="game-container">
@@ -94,7 +126,7 @@ const Game = () => {
 
       {/* Car Image */}
       <img
-        src="/assets/character.jpg" // Path to car image
+        src="/assets/char1.gif" // Path to car image
         alt="Car"
         className="car"
         style={{
@@ -110,7 +142,7 @@ const Game = () => {
       {obstacles.map((obstacle, index) => (
         <img
           key={index}
-          src="/assets/girls.jpg" // Path to obstacle image
+          src={obstacle.image} // Dynamic obstacle image
           alt="Obstacle"
           className="obstacle"
           style={{
@@ -129,13 +161,11 @@ const Game = () => {
 function App() {
   return (
     <div className="App">
-      <h1>Focuse bro .</h1>
+      <h1>Focuse bro.</h1>
+      <p>If You can controll your mind then dont look at girls and make 3000 score.</p>
       <Game />
-
-      <a href='https://jlss.netlify.app/'>Powered by JLSS</a>
-
+     
     </div>
-
   );
 }
 
