@@ -33,7 +33,7 @@ const Game = () => {
     bgAudio.pause();
     bgAudio.currentTime = 0;
   };
-  
+
   // Handle key events
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -45,7 +45,7 @@ const Game = () => {
       } else if (e.key === 'ArrowLeft') {
         setCarXPosition((prevX) => (prevX > 0 ? prevX - carSpeed : prevX));
       } else if (e.key === 'ArrowRight') {
-        setCarXPosition((prevX) => (prevX < 700 ? prevX + carSpeed : prevX));
+        setCarXPosition((prevX) => (prevX < 750 ? prevX + carSpeed : prevX));
       }
     };
 
