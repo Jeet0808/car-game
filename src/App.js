@@ -11,9 +11,6 @@ const Game = () => {
 
   const carSpeed = 25; // Car speed
 
-
-
-
   // Array of obstacle image paths
   const obstacleImages = [
     '/assets/obstacle10.gif',
@@ -57,13 +54,8 @@ const Game = () => {
     if (gameOver) return;
 
     const interval = setInterval(() => {
-      
-        
       if (obstacles.length < 5) {
-
-        // Increment obstacle speed every second
-       
-
+        // Add a new obstacle
         setObstacles((prevObstacles) => [
           ...prevObstacles,
           {
@@ -73,19 +65,17 @@ const Game = () => {
             height: 50 + Math.random() * 50, // Random height
             speed: obstacleBaseSpeed + Math.random() * 2, // Random speed
             image: obstacleImages[Math.floor(Math.random() * obstacleImages.length)], // Random image
-
           },
         ]);
       }
 
+      // Update obstacles position and remove those off-screen
       setObstacles((prevObstacles) => {
-        
-      console.log(obstacleBaseSpeed);
+        console.log(obstacleBaseSpeed);
         return prevObstacles
           .map((obstacle) => {
             if (obstacle.y >= 500) {
               return {
-                
                 ...obstacle,
                 y: -50, // Reset position to top
                 x: Math.random() * 500 + 50, // New random horizontal position
@@ -97,6 +87,7 @@ const Game = () => {
           .filter((obstacle) => obstacle.y <= 500); // Remove obstacles that go off screen
       });
 
+      // Check for collision with obstacles
       for (let obstacle of obstacles) {
         if (
           carPosition < obstacle.y + obstacle.height &&
@@ -110,15 +101,15 @@ const Game = () => {
         }
       }
 
-      if (!gameOver){
-        setScore(score + 1);
-        setObstacleBaseSpeed(obstacleBaseSpeed+0.002);
-      
-      } 
+      // Update score and obstacle speed
+      if (!gameOver) {
+        setScore((prevScore) => prevScore + 1); // Use functional update for score
+        setObstacleBaseSpeed((prevSpeed) => prevSpeed + 0.002); // Use functional update for obstacle speed
+      }
     }, 20);
 
     return () => clearInterval(interval);
-  }, [obstacles, carPosition, carXPosition, gameOver, score,obstacleBaseSpeed]);
+  }, [obstacles, carPosition, carXPosition, gameOver, score, obstacleBaseSpeed]);
 
   return (
     <div className="game-container">
@@ -162,9 +153,8 @@ function App() {
   return (
     <div className="App">
       <h1>Focuse bro.</h1>
-      <p>If You can controll your mind then dont look at girls and make 3000 score.</p>
+      <p>If You can control your mind, then don't look at girls and make 3000 score.</p>
       <Game />
-     
     </div>
   );
 }
