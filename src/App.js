@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 
 const Game = () => {
-  var [carPosition, setCarPosition] = useState(250); // Vertical position of the car
-  var [carXPosition, setCarXPosition] = useState(200); // Horizontal position of the car
-  var [obstacles, setObstacles] = useState([]); // Array of obstacles
-  var [gameOver, setGameOver] = useState(false); // Game over flag
-  var [score, setScore] = useState(0); // Game score
-  var [obstacleBaseSpeed, setObstacleBaseSpeed] = useState(2);
+  const [carPosition, setCarPosition] = useState(250); // Vertical position of the car
+  const [carXPosition, setCarXPosition] = useState(200); // Horizontal position of the car
+  const [obstacles, setObstacles] = useState([]); // Array of obstacles
+  const [gameOver, setGameOver] = useState(false); // Game over flag
+  const [score, setScore] = useState(0); // Game score
+  const [obstacleBaseSpeed, setObstacleBaseSpeed] = useState(2);
 
   const carSpeed = 25; // Car speed
 
@@ -55,7 +55,6 @@ const Game = () => {
 
     const interval = setInterval(() => {
       if (obstacles.length < 5) {
-        // Add a new obstacle
         setObstacles((prevObstacles) => [
           ...prevObstacles,
           {
@@ -69,9 +68,7 @@ const Game = () => {
         ]);
       }
 
-      // Update obstacles position and remove those off-screen
       setObstacles((prevObstacles) => {
-        console.log(obstacleBaseSpeed);
         return prevObstacles
           .map((obstacle) => {
             if (obstacle.y >= 500) {
@@ -87,7 +84,6 @@ const Game = () => {
           .filter((obstacle) => obstacle.y <= 500); // Remove obstacles that go off screen
       });
 
-      // Check for collision with obstacles
       for (let obstacle of obstacles) {
         if (
           carPosition < obstacle.y + obstacle.height &&
@@ -101,7 +97,6 @@ const Game = () => {
         }
       }
 
-      // Update score and obstacle speed
       if (!gameOver) {
         setScore((prevScore) => prevScore + 1); // Use functional update for score
         setObstacleBaseSpeed((prevSpeed) => prevSpeed + 0.002); // Use functional update for obstacle speed
@@ -110,6 +105,16 @@ const Game = () => {
 
     return () => clearInterval(interval);
   }, [obstacles, carPosition, carXPosition, gameOver, score, obstacleBaseSpeed]);
+
+  // Restart game handler
+  const restartGame = () => {
+    setCarPosition(250); // Reset car position
+    setCarXPosition(200); // Reset car X position
+    setObstacles([]); // Clear obstacles
+    setGameOver(false); // Reset game over flag
+    setScore(0); // Reset score
+    setObstacleBaseSpeed(2); // Reset obstacle speed
+  };
 
   return (
     <div className="game-container">
@@ -145,6 +150,13 @@ const Game = () => {
           }}
         />
       ))}
+
+      {/* Restart Button */}
+      {gameOver && (
+        <button className="restart-button" onClick={restartGame}>
+          Restart Game
+        </button>
+      )}
     </div>
   );
 };
