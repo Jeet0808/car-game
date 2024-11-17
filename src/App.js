@@ -17,7 +17,7 @@ const Game = () => {
 
   // Audio files using useRef
   const backgroundAudio = useRef(new Audio('/assets/back.mp3'));
-  const gameOverAudio = useRef(new Audio('/assets/go.mp3'));
+
 
   // Start background audio
   const startBackgroundAudio = () => {
@@ -29,31 +29,10 @@ const Game = () => {
   // Stop all audio
   const stopAllAudio = () => {
     const bgAudio = backgroundAudio.current;
-    const goAudio = gameOverAudio.current;
+
     bgAudio.pause();
     bgAudio.currentTime = 0;
-    goAudio.pause();
-    goAudio.currentTime = 0;
   };
-  async function playGameOverAudio() {
-    // Ensure the background audio is correctly referenced before calling pause()
-    const bgAudio = backgroundAudio.current;
-  
-    if (bgAudio && !bgAudio.paused) {
-      bgAudio.pause();
-      bgAudio.currentTime = 0; // Reset background audio
-    }
-  
-    try {
-      // Wait for gameOverAudio to finish before setting gameOver state
-      await gameOverAudio.current.play();
-    } catch (error) {
-      console.error("Error playing game over audio:", error);
-    }
-  
-    // Set the gameOver state after the audio starts
-    setGameOver(true);
-  }
   
   // Handle key events
   useEffect(() => {
