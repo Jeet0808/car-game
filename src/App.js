@@ -11,35 +11,29 @@ const Game = () => {
 
   const carSpeed = 25; // Car speed
 
-  // Key Press Event Handler
-  const handleKeyDown = (e) => {
-    if (gameOver) return;
-
-    switch (e.key) {
-      case 'ArrowUp':
-        if (carPosition > 0) setCarPosition(carPosition - carSpeed); // Move up
-        break;
-      case 'ArrowDown':
-        if (carPosition < 450) setCarPosition(carPosition + carSpeed); // Move down
-        break;
-      case 'ArrowLeft':
-        if (carXPosition > 0) setCarXPosition(carXPosition - carSpeed); // Move left
-        break;
-      case 'ArrowRight':
-        if (carXPosition < 450) setCarXPosition(carXPosition + carSpeed); // Move right
-        break;
-      default:
-        break;
-    }
-  };
-
   useEffect(() => {
-    // Add keydown event listener
+    // Define the handleKeyDown function inside useEffect
+    const handleKeyDown = (e) => {
+      if (gameOver) return; // Don't allow movement if game is over
+      if (e.key === 'ArrowUp') {
+        setCarPosition((prevPosition) => (prevPosition > 0 ? prevPosition - carSpeed : prevPosition)); // Move up
+      } else if (e.key === 'ArrowDown') {
+        setCarPosition((prevPosition) => (prevPosition < 450 ? prevPosition + carSpeed : prevPosition)); // Move down
+      } else if (e.key === 'ArrowLeft') {
+        setCarXPosition((prevX) => (prevX > 0 ? prevX - carSpeed : prevX)); // Move left
+      } else if (e.key === 'ArrowRight') {
+        setCarXPosition((prevX) => (prevX < 750 ? prevX + carSpeed : prevX)); // Move right
+      }
+    };
+
+    // Add event listener for keydown
     window.addEventListener('keydown', handleKeyDown);
 
-    // Clean up event listener on component unmount
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [carPosition, carXPosition, gameOver]);
+    // Cleanup event listener when the component unmounts
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [gameOver]); // Add gameOver to dependency array if needed
 
   useEffect(() => {
     const obstacleImages = [
@@ -52,7 +46,6 @@ const Game = () => {
       '/assets/obstacle16.gif',
       '/assets/obstacle17.gif',
       '/assets/obstacle18.gif',
-      '/assets/obstacle19.gif',
       '/assets/obstacle20.gif',
     ];
 
@@ -97,7 +90,7 @@ const Game = () => {
           carXPosition + 50 > obstacle.x
         ) {
           setGameOver(true);
-          alert('Game Over Khatam tata by by !');
+          alert('Game Over Khatam tata by by!');
           break;
         }
       }
@@ -109,7 +102,7 @@ const Game = () => {
     }, 20);
 
     return () => clearInterval(interval);
-  }, [obstacles, carPosition, carXPosition, gameOver, score, obstacleBaseSpeed]); // Removed obstacleImages from the dependency array
+  }, [obstacles, carPosition, carXPosition, gameOver, score, obstacleBaseSpeed]);
 
   // Restart game handler
   const restartGame = () => {
