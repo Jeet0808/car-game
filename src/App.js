@@ -7,8 +7,8 @@ const Game = () => {
   const [obstacles, setObstacles] = useState([]); // Array of obstacles
   const [gameOver, setGameOver] = useState(false); // Game over flag
   const [score, setScore] = useState(0); // Game score
-  
-  const carSpeed = 5; // Car speed
+
+  const carSpeed = 30; // Car speed
   const obstacleBaseSpeed = 2; // Base speed for obstacles
 
   // Handle the car movement
@@ -91,7 +91,7 @@ const Game = () => {
   return (
     <div className="game-container">
       <div className="score">Score: {score}</div>
-      
+
       {/* Car Image */}
       <img
         src="/assets/character.jpg" // Path to car image
@@ -105,7 +105,7 @@ const Game = () => {
           height: '50px', // Adjust car height
         }}
       />
-      
+
       {/* Obstacle Images */}
       {obstacles.map((obstacle, index) => (
         <img
@@ -132,9 +132,10 @@ function App() {
       <h1>Focuse bro .</h1>
       <Game />
 
-      <h5>Powered by JLSS</h5>
+      <a href='https://teal-froyo-c93f19.netlify.app/'>Powered by JLSS</a>
+
     </div>
-   
+
   );
 }
 
