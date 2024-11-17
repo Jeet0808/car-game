@@ -1,40 +1,80 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 
+
 const Game = () => {
-  const [carPosition, setCarPosition] = useState(250); // Vertical position of the car
-  const [carXPosition, setCarXPosition] = useState(200); // Horizontal position of the car
-  const [obstacles, setObstacles] = useState([]); // Array of obstacles
-  const [gameOver, setGameOver] = useState(false); // Game over flag
-  const [score, setScore] = useState(0); // Game score
+  
+
+  const [carPosition, setCarPosition] = useState(250);
+  const [carXPosition, setCarXPosition] = useState(200);
+  const [obstacles, setObstacles] = useState([]);
+  const [gameOver, setGameOver] = useState(false);
+  const [score, setScore] = useState(0);
   const [obstacleBaseSpeed, setObstacleBaseSpeed] = useState(2);
+  const [gameStarted, setGameStarted] = useState(false);
 
-  const carSpeed = 25; // Car speed
+  const carSpeed = 25;
 
+  // Audio files using useRef
+  const backgroundAudio = useRef(new Audio('/assets/back.mp3'));
+  const gameOverAudio = useRef(new Audio('/assets/go.mp3'));
+
+  // Start background audio
+  const startBackgroundAudio = () => {
+    const bgAudio = backgroundAudio.current;
+    bgAudio.loop = true;
+    bgAudio.play();
+  };
+
+  // Stop all audio
+  const stopAllAudio = () => {
+    const bgAudio = backgroundAudio.current;
+    const goAudio = gameOverAudio.current;
+    bgAudio.pause();
+    bgAudio.currentTime = 0;
+    goAudio.pause();
+    goAudio.currentTime = 0;
+  };
+  async function playGameOverAudio() {
+    // Ensure the background audio is correctly referenced before calling pause()
+    const bgAudio = backgroundAudio.current;
+  
+    if (bgAudio && !bgAudio.paused) {
+      bgAudio.pause();
+      bgAudio.currentTime = 0; // Reset background audio
+    }
+  
+    try {
+      // Wait for gameOverAudio to finish before setting gameOver state
+      await gameOverAudio.current.play();
+    } catch (error) {
+      console.error("Error playing game over audio:", error);
+    }
+  
+    // Set the gameOver state after the audio starts
+    setGameOver(true);
+  }
+  
+  // Handle key events
   useEffect(() => {
-    // Define the handleKeyDown function inside useEffect
     const handleKeyDown = (e) => {
-      if (gameOver) return; // Don't allow movement if game is over
+      if (gameOver || !gameStarted) return;
       if (e.key === 'ArrowUp') {
-        setCarPosition((prevPosition) => (prevPosition > 0 ? prevPosition - carSpeed : prevPosition)); // Move up
+        setCarPosition((prevPosition) => (prevPosition > 0 ? prevPosition - carSpeed : prevPosition));
       } else if (e.key === 'ArrowDown') {
-        setCarPosition((prevPosition) => (prevPosition < 450 ? prevPosition + carSpeed : prevPosition)); // Move down
+        setCarPosition((prevPosition) => (prevPosition < 450 ? prevPosition + carSpeed : prevPosition));
       } else if (e.key === 'ArrowLeft') {
-        setCarXPosition((prevX) => (prevX > 0 ? prevX - carSpeed : prevX)); // Move left
+        setCarXPosition((prevX) => (prevX > 0 ? prevX - carSpeed : prevX));
       } else if (e.key === 'ArrowRight') {
-        setCarXPosition((prevX) => (prevX < 750 ? prevX + carSpeed : prevX)); // Move right
+        setCarXPosition((prevX) => (prevX < 700 ? prevX + carSpeed : prevX));
       }
     };
 
-    // Add event listener for keydown
     window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [gameOver, gameStarted]);
 
-    // Cleanup event listener when the component unmounts
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [gameOver]); // Add gameOver to dependency array if needed
-
+  // Game loop
   useEffect(() => {
     const obstacleImages = [
       '/assets/obstacle10.gif',
@@ -49,39 +89,42 @@ const Game = () => {
       '/assets/obstacle20.gif',
     ];
 
-    if (gameOver) return;
+    if (!gameStarted || gameOver) return;
 
     const interval = setInterval(() => {
+      // Generate new obstacles
       if (obstacles.length < 5) {
         setObstacles((prevObstacles) => [
           ...prevObstacles,
           {
-            x: Math.random() * 700 + 50, // Random horizontal position
-            y: -50, // Start just above the screen
-            width: 50 + Math.random() * 50, // Random width
-            height: 50 + Math.random() * 50, // Random height
-            speed: obstacleBaseSpeed + Math.random() * 2, // Random speed
-            image: obstacleImages[Math.floor(Math.random() * obstacleImages.length)], // Random image
+            x: Math.random() * 700 + 50,
+            y: -50,
+            width: 50 + Math.random() * 50,
+            height: 50 + Math.random() * 50,
+            speed: obstacleBaseSpeed + Math.random() * 2,
+            image: obstacleImages[Math.floor(Math.random() * obstacleImages.length)],
           },
         ]);
       }
 
+      // Move obstacles and check collisions
       setObstacles((prevObstacles) => {
         return prevObstacles
           .map((obstacle) => {
             if (obstacle.y >= 500) {
               return {
                 ...obstacle,
-                y: -50, // Reset position to top
-                x: Math.random() * 500 + 50, // New random horizontal position
+                y: -50,
+                x: Math.random() * 500 + 50,
               };
             } else {
               return { ...obstacle, y: obstacle.y + obstacle.speed };
             }
           })
-          .filter((obstacle) => obstacle.y <= 500); // Remove obstacles that go off screen
+          .filter((obstacle) => obstacle.y <= 500);
       });
 
+      // Handle collision detection
       for (let obstacle of obstacles) {
         if (
           carPosition < obstacle.y + obstacle.height &&
@@ -89,54 +132,67 @@ const Game = () => {
           carXPosition < obstacle.x + obstacle.width &&
           carXPosition + 50 > obstacle.x
         ) {
-          setGameOver(true);
-          alert('Game Over Khatam tata by by!');
-          break;
+          // Handle game over if collision is detected
+             // Set the gameOver state after the audio starts
+           setGameOver(true);
+          stopAllAudio();
+          // playGameOverAudio();
+          clearInterval(interval);  // Stop the interval to halt further game updates
+          return;
         }
       }
 
+      // Increase score and adjust obstacle speed if game is ongoing
       if (!gameOver) {
-        setScore((prevScore) => prevScore + 1); // Use functional update for score
-        setObstacleBaseSpeed((prevSpeed) => prevSpeed + 0.002); // Use functional update for obstacle speed
+        setScore((prevScore) => prevScore + 1);
+        setObstacleBaseSpeed((prevSpeed) => prevSpeed + 0.002);
       }
     }, 20);
 
     return () => clearInterval(interval);
-  }, [obstacles, carPosition, carXPosition, gameOver, score, obstacleBaseSpeed]);
+  }, [obstacles, carPosition, carXPosition, gameOver, score, obstacleBaseSpeed, gameStarted]);
 
-  // Restart game handler
+  // Start game
+  const startGame = () => {
+    startBackgroundAudio();
+    setGameStarted(true);
+  };
+
+  // Restart game
   const restartGame = () => {
-    setCarPosition(250); // Reset car position
-    setCarXPosition(200); // Reset car X position
-    setObstacles([]); // Clear obstacles
-    setGameOver(false); // Reset game over flag
-    setScore(0); // Reset score
-    setObstacleBaseSpeed(2); // Reset obstacle speed
+    setCarPosition(250);
+    setCarXPosition(200);
+    setObstacles([]);
+    setGameOver(false);
+    setScore(0);
+    setObstacleBaseSpeed(2);
+    setGameStarted(true);
+    const bgAudio = backgroundAudio.current;
+    bgAudio.currentTime = 0;
+    bgAudio.play();
   };
 
   return (
     <div className="game-container">
       <div className="score">Score: {score}</div>
 
-      {/* Car Image */}
       <img
-        src="/assets/char1.gif" // Path to car image
+        src="/assets/char1.gif"
         alt="Car"
         className="car"
         style={{
           top: `${carPosition}px`,
           left: `${carXPosition}px`,
           position: 'absolute',
-          width: '50px', // Adjust car width
-          height: '50px', // Adjust car height
+          width: '50px',
+          height: '50px',
         }}
       />
 
-      {/* Obstacle Images */}
       {obstacles.map((obstacle, index) => (
         <img
           key={index}
-          src={obstacle.image} // Dynamic obstacle image
+          src={obstacle.image}
           alt="Obstacle"
           className="obstacle"
           style={{
@@ -149,7 +205,12 @@ const Game = () => {
         />
       ))}
 
-      {/* Restart Button */}
+      {!gameStarted && (
+        <button className="start-button" onClick={startGame}>
+          Start Game
+        </button>
+      )}
+
       {gameOver && (
         <button className="restart-button" onClick={restartGame}>
           Restart Game
@@ -162,8 +223,8 @@ const Game = () => {
 function App() {
   return (
     <div className="App">
-      <h1>Focuse bro.</h1>
-      <p>If You can control your mind, then don't look at girls and make 3000 score.</p>
+      <h1>Focus, Bro!</h1>
+      <p>If you can control your mind, don't look at girls and make a 3000 score.</p>
       <Game />
     </div>
   );
