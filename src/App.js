@@ -11,46 +11,51 @@ const Game = () => {
 
   const carSpeed = 25; // Car speed
 
-  // Array of obstacle image paths
-  const obstacleImages = [
-    '/assets/obstacle10.gif',
-    '/assets/obstacle11.gif',
-    '/assets/obstacle12.gif',
-    '/assets/obstacle13.gif',
-    '/assets/obstacle14.gif',
-    '/assets/obstacle15.gif',
-    '/assets/obstacle16.gif',
-    '/assets/obstacle17.gif',
-    '/assets/obstacle18.gif',
-    '/assets/obstacle19.gif',
-    '/assets/obstacle20.gif',
-  ];
-
-  // Handle the car movement
-  useEffect(() => {
+  // Key Press Event Handler
+  const handleKeyDown = (e) => {
     if (gameOver) return;
 
-    const handleKeyDown = (e) => {
-      if (e.key === 'ArrowUp' && carPosition > 0) {
-        setCarPosition(carPosition - carSpeed); // Move car up
-      } else if (e.key === 'ArrowDown' && carPosition < 450) {
-        setCarPosition(carPosition + carSpeed); // Move car down
-      } else if (e.key === 'ArrowLeft' && carXPosition > 0) {
-        setCarXPosition(carXPosition - carSpeed); // Move car left
-      } else if (e.key === 'ArrowRight' && carXPosition < 750) {
-        setCarXPosition(carXPosition + carSpeed); // Move car right
-      }
-    };
+    switch (e.key) {
+      case 'ArrowUp':
+        if (carPosition > 0) setCarPosition(carPosition - carSpeed); // Move up
+        break;
+      case 'ArrowDown':
+        if (carPosition < 450) setCarPosition(carPosition + carSpeed); // Move down
+        break;
+      case 'ArrowLeft':
+        if (carXPosition > 0) setCarXPosition(carXPosition - carSpeed); // Move left
+        break;
+      case 'ArrowRight':
+        if (carXPosition < 450) setCarXPosition(carXPosition + carSpeed); // Move right
+        break;
+      default:
+        break;
+    }
+  };
 
+  useEffect(() => {
+    // Add keydown event listener
     window.addEventListener('keydown', handleKeyDown);
 
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
+    // Clean up event listener on component unmount
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [carPosition, carXPosition, gameOver]);
 
-  // Game loop for obstacle creation and movement
   useEffect(() => {
+    const obstacleImages = [
+      '/assets/obstacle10.gif',
+      '/assets/obstacle11.gif',
+      '/assets/obstacle12.gif',
+      '/assets/obstacle13.gif',
+      '/assets/obstacle14.gif',
+      '/assets/obstacle15.gif',
+      '/assets/obstacle16.gif',
+      '/assets/obstacle17.gif',
+      '/assets/obstacle18.gif',
+      '/assets/obstacle19.gif',
+      '/assets/obstacle20.gif',
+    ];
+
     if (gameOver) return;
 
     const interval = setInterval(() => {
@@ -104,7 +109,7 @@ const Game = () => {
     }, 20);
 
     return () => clearInterval(interval);
-  }, [gameOver, obstacles, carPosition, carXPosition, score, obstacleBaseSpeed, obstacleImages]); // Correct dependency array
+  }, [obstacles, carPosition, carXPosition, gameOver, score, obstacleBaseSpeed]); // Removed obstacleImages from the dependency array
 
   // Restart game handler
   const restartGame = () => {
