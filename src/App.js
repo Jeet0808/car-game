@@ -11,7 +11,7 @@ const Game = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [collidedObstacleId, setCollidedObstacleId] = useState(null);
 
-  const carSpeed = 25;
+  const carSpeed = 28;
 
   // Audio files using useRef
   const backgroundAudio = useRef(new Audio('/assets/back.mp3'));
@@ -38,11 +38,11 @@ const Game = () => {
       if (e.key === 'ArrowUp') {
         setCarPosition((prevPosition) => (prevPosition > 0 ? prevPosition - carSpeed : prevPosition));
       } else if (e.key === 'ArrowDown') {
-        setCarPosition((prevPosition) => (prevPosition < 450 ? prevPosition + carSpeed : prevPosition));
+        setCarPosition((prevPosition) => (prevPosition < 430 ? prevPosition + carSpeed : prevPosition));
       } else if (e.key === 'ArrowLeft') {
-        setCarXPosition((prevX) => (prevX > 0 ? prevX - carSpeed : prevX));
+        setCarXPosition((prevX) => (prevX > 5 ? prevX - carSpeed : prevX));
       } else if (e.key === 'ArrowRight') {
-        setCarXPosition((prevX) => (prevX < 750 ? prevX + carSpeed : prevX));
+        setCarXPosition((prevX) => (prevX < 733 ? prevX + carSpeed : prevX));
       }
     };
 
