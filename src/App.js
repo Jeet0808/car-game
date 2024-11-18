@@ -203,11 +203,13 @@ const Game = () => {
       )}
 
       {gameOver && (
-        <div>
-          <button className="restart-button" onClick={restartGame}>
+       <div style={{ zIndex: 1 }}>
+
+          <button className="restart-button" onClick={restartGame}style={{ zIndex: 1 }}>
+          
             Restart Game
           </button>
-        </div>
+        </div> 
       )}
     </div>
   );

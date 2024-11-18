@@ -41,3 +41,11 @@
   font-size: 20px;
   color: #cdc0c0;
 }
+
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 10px auto;
+}
