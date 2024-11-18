@@ -1,10 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 
-
 const Game = () => {
-  
-
   const [carPosition, setCarPosition] = useState(250);
   const [carXPosition, setCarXPosition] = useState(200);
   const [obstacles, setObstacles] = useState([]);
@@ -12,12 +9,12 @@ const Game = () => {
   const [score, setScore] = useState(0);
   const [obstacleBaseSpeed, setObstacleBaseSpeed] = useState(2);
   const [gameStarted, setGameStarted] = useState(false);
+  const [collidedObstacleId, setCollidedObstacleId] = useState(null);
 
   const carSpeed = 25;
-
+  var createdid = "";
   // Audio files using useRef
   const backgroundAudio = useRef(new Audio('/assets/back.mp3'));
-
 
   // Start background audio
   const startBackgroundAudio = () => {
@@ -76,6 +73,7 @@ const Game = () => {
         setObstacles((prevObstacles) => [
           ...prevObstacles,
           {
+            id: Date.now(), // Unique ID based on the current timestamp
             x: Math.random() * 700 + 50,
             y: -50,
             width: 50 + Math.random() * 50,
@@ -112,10 +110,9 @@ const Game = () => {
           carXPosition + 50 > obstacle.x
         ) {
           // Handle game over if collision is detected
-             // Set the gameOver state after the audio starts
-           setGameOver(true);
+          setCollidedObstacleId(obstacle.id); // Store the ID of the collided obstacle
+          setGameOver(true);
           stopAllAudio();
-          // playGameOverAudio();
           clearInterval(interval);  // Stop the interval to halt further game updates
           return;
         }
@@ -146,6 +143,7 @@ const Game = () => {
     setScore(0);
     setObstacleBaseSpeed(2);
     setGameStarted(true);
+    setCollidedObstacleId(null); // Reset collided obstacle ID
     const bgAudio = backgroundAudio.current;
     bgAudio.currentTime = 0;
     bgAudio.play();
@@ -170,7 +168,7 @@ const Game = () => {
 
       {obstacles.map((obstacle, index) => (
         <img
-          key={index}
+          key={obstacle.id} // Use obstacle's ID as the key
           src={obstacle.image}
           alt="Obstacle"
           className="obstacle"
@@ -184,6 +182,20 @@ const Game = () => {
         />
       ))}
 
+      {collidedObstacleId && (
+        <div className="collided-obstacle">
+      
+          {obstacles.find(obstacle => obstacle.id === collidedObstacleId) && (
+            <img
+              src={obstacles.find(obstacle => obstacle.id === collidedObstacleId).image}
+              alt="Collided Obstacle"
+             
+             
+            />
+          )}
+        </div>
+      )}
+
       {!gameStarted && (
         <button className="start-button" onClick={startGame}>
           Start Game
@@ -191,9 +203,11 @@ const Game = () => {
       )}
 
       {gameOver && (
-        <button className="restart-button" onClick={restartGame}>
-          Restart Game
-        </button>
+        <div>
+          <button className="restart-button" onClick={restartGame}>
+            Restart Game
+          </button>
+        </div>
       )}
     </div>
   );
