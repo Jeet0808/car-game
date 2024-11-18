@@ -12,7 +12,7 @@ const Game = () => {
   const [collidedObstacleId, setCollidedObstacleId] = useState(null);
 
   const carSpeed = 25;
-  var createdid = "";
+
   // Audio files using useRef
   const backgroundAudio = useRef(new Audio('/assets/back.mp3'));
 
@@ -74,7 +74,7 @@ const Game = () => {
           ...prevObstacles,
           {
             id: Date.now(), // Unique ID based on the current timestamp
-            x: Math.random() * 700 + 50,
+            x: Math.random() * 700 + 5,
             y: -50,
             width: 50 + Math.random() * 50,
             height: 50 + Math.random() * 50,
