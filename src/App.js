@@ -129,17 +129,16 @@ const Game = () => {
     bgAudio.currentTime = 0;
     bgAudio.play();
   };
-
-  // Keydown event listener for car movement
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (gameOver || !gameStarted) return;
       moveCar(e.key);
     };
-
+  
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [gameOver, gameStarted]);
+  }, [gameOver, gameStarted, moveCar]); // Add moveCar as a dependency
+  
 
   return (
     <div className="game-container">
