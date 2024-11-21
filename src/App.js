@@ -216,6 +216,7 @@ function App() {
       <p>If you can control your mind, don't look at girls and make a 3000 score.</p>
       <Game />
       <a href='https://jlss.netlify.app/'>Powerd by JLSS</a>
+    
     </div>
     
   );
