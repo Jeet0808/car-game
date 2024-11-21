@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './App.css';
 
 const Game = () => {
@@ -28,26 +28,18 @@ const Game = () => {
     bgAudio.currentTime = 0;
   };
 
-  // Handle key presses for car movement
-  const moveCar = (direction) => {
+  const moveCar = useCallback((direction) => {
     if (gameOver || !gameStarted) return;
-    switch (direction) {
-      case 'ArrowUp':
-        setCarPosition(prevPosition => (prevPosition > 0 ? prevPosition - carSpeed : prevPosition));
-        break;
-      case 'ArrowDown':
-        setCarPosition(prevPosition => (prevPosition < 430 ? prevPosition + carSpeed : prevPosition));
-        break;
-      case 'ArrowLeft':
-        setCarXPosition(prevX => (prevX > 5 ? prevX - carSpeed : prevX));
-        break;
-      case 'ArrowRight':
-        setCarXPosition(prevX => (prevX < 733 ? prevX + carSpeed : prevX));
-        break;
-      default:
-        break;
+    if (direction === 'ArrowUp') {
+      setCarPosition((prevPosition) => (prevPosition > 0 ? prevPosition - carSpeed : prevPosition));
+    } else if (direction === 'ArrowDown') {
+      setCarPosition((prevPosition) => (prevPosition < 430 ? prevPosition + carSpeed : prevPosition));
+    } else if (direction === 'ArrowLeft') {
+      setCarXPosition((prevX) => (prevX > 5 ? prevX - carSpeed : prevX));
+    } else if (direction === 'ArrowRight') {
+      setCarXPosition((prevX) => (prevX < 733 ? prevX + carSpeed : prevX));
     }
-  };
+  }, [gameOver, gameStarted]);
 
   // Game loop - generate and move obstacles, detect collisions
   useEffect(() => {
@@ -138,16 +130,17 @@ const Game = () => {
     bgAudio.play();
   };
 
+  // Keydown event listener for car movement
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (gameOver || !gameStarted) return;
-      moveCar(e.key); // Using moveCar function
+      moveCar(e.key);
     };
-  
+
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [gameOver, gameStarted, moveCar]); // Still ensure to add moveCar here
-  
+  }, [gameOver, gameStarted]);
+
   return (
     <div className="game-container">
       <div className="score">Score: {score}</div>
