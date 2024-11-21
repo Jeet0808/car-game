@@ -7,7 +7,7 @@
   position: relative;
   width: 800px;
   height: 500px;
- background-color: rgb(0, 0, 0);
+  background-color: rgb(0, 0, 0);
   margin: 20px auto;
   overflow: hidden;
   border: 2px solid black;
@@ -16,15 +16,12 @@
   align-items: flex-start;
 }
 
-
-
 .car {
   position: absolute;
   bottom: 0;
   left: 50%;
   width: 50px;
   height: 100px;
- 
   border-radius: 5px;
 }
 
@@ -42,7 +39,6 @@
   color: #cdc0c0;
 }
 
-
 img {
   max-width: 100%;
   height: auto;
@@ -53,27 +49,93 @@ img {
 .mobile-controls {
   position: fixed;
   bottom: 20px;
-  left: 500px;
+  left: 50%;
+  transform: translateX(-50%); /* Center the controls */
 }
 
 .control.up {
   position: relative;
-  margin-left: 50px; /* Push up button to the center */
   margin-bottom: 10px;
 }
 
 .horizontal-controls {
   display: flex;
-  margin-top: -15px; /* Adjust spacing between rows */
+  margin-top: -15px;
 }
 
 .control.left {
-  margin-right: 220px; /* Add space between Left and Right */
+  margin-right: 20px; /* Adjust the space between Left and Right */
 }
 
 .control.down {
   position: relative;
-  margin-left: 50px; /* Align with Up button */
-  margin-top: -10px; /* Adjust the spacing with Left/Right */
+  margin-top: -10px;
 }
 
+/* Media query for mobile responsiveness */
+@media (max-width: 768px) {
+  .game-container {
+    width: 100%;
+    height: 400px; /* Adjust the height for mobile screens */
+  }
+
+  .car {
+    width: 40px; /* Make the car smaller for mobile */
+    height: 80px;
+  }
+
+  .obstacle {
+    width: 40px; /* Make obstacles smaller for mobile */
+    height: 40px;
+  }
+
+  .score {
+    font-size: 16px; /* Make the score font smaller */
+  }
+
+  .mobile-controls {
+    left: 50%;
+    transform: translateX(-50%); /* Keep controls centered */
+  }
+
+  .control.up,
+  .control.left,
+  .control.down {
+    width: 60px;
+    height: 60px; /* Adjust the size of buttons for better tap area */
+    font-size: 16px; /* Adjust font size inside buttons */
+  }
+
+  .horizontal-controls {
+    justify-content: center; /* Center the Left and Right buttons */
+  }
+
+  .control.left {
+    margin-right: 10px; /* Adjust space between Left and Right */
+  }
+}
+
+/* For extra small devices */
+@media (max-width: 480px) {
+  .game-container {
+    height: 300px; /* Adjust for very small screens */
+  }
+
+  .car {
+    width: 35px; /* Make the car even smaller */
+    height: 70px;
+  }
+
+  .obstacle {
+    width: 35px;
+    height: 35px;
+  }
+
+  .score {
+    font-size: 14px; /* Even smaller score font for small screens */
+  }
+
+  .mobile-controls {
+    bottom: 10px; /* Adjust position of controls on very small screens */
+  }
+}
