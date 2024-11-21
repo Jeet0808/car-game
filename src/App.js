@@ -11,7 +11,6 @@ const Game = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [collidedObstacleId, setCollidedObstacleId] = useState(null);
 
-
   const carSpeed = 35;
 
   // Audio files using useRef
@@ -29,44 +28,34 @@ const Game = () => {
     bgAudio.currentTime = 0;
   };
 
-  // Handle key events
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (gameOver || !gameStarted) return;
-      moveCar(e.key);
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [gameOver, gameStarted]);
-
+  // Handle key presses for car movement
   const moveCar = (direction) => {
     if (gameOver || !gameStarted) return;
-    if (direction === 'ArrowUp') {
-      setCarPosition((prevPosition) => (prevPosition > 0 ? prevPosition - carSpeed : prevPosition));
-    } else if (direction === 'ArrowDown') {
-      setCarPosition((prevPosition) => (prevPosition < 430 ? prevPosition + carSpeed : prevPosition));
-    } else if (direction === 'ArrowLeft') {
-      setCarXPosition((prevX) => (prevX > 5 ? prevX - carSpeed : prevX));
-    } else if (direction === 'ArrowRight') {
-      setCarXPosition((prevX) => (prevX < 733 ? prevX + carSpeed : prevX));
+    switch (direction) {
+      case 'ArrowUp':
+        setCarPosition(prevPosition => (prevPosition > 0 ? prevPosition - carSpeed : prevPosition));
+        break;
+      case 'ArrowDown':
+        setCarPosition(prevPosition => (prevPosition < 430 ? prevPosition + carSpeed : prevPosition));
+        break;
+      case 'ArrowLeft':
+        setCarXPosition(prevX => (prevX > 5 ? prevX - carSpeed : prevX));
+        break;
+      case 'ArrowRight':
+        setCarXPosition(prevX => (prevX < 733 ? prevX + carSpeed : prevX));
+        break;
+      default:
+        break;
     }
   };
 
-  // Game loop
+  // Game loop - generate and move obstacles, detect collisions
   useEffect(() => {
     const obstacleImages = [
-      '/assets/obstacle10.gif',
-      '/assets/obstacle11.gif',
-      '/assets/obstacle12.gif',
-      '/assets/obstacle13.gif',
-      '/assets/obstacle14.gif',
-      '/assets/obstacle15.gif',
-      '/assets/obstacle16.gif',
-      '/assets/obstacle17.gif',
-      '/assets/obstacle18.gif',
-      '/assets/obstacle19.gif',
-      '/assets/obstacle20.gif',
+      '/assets/obstacle10.gif', '/assets/obstacle11.gif', '/assets/obstacle12.gif',
+      '/assets/obstacle13.gif', '/assets/obstacle14.gif', '/assets/obstacle15.gif',
+      '/assets/obstacle16.gif', '/assets/obstacle17.gif', '/assets/obstacle18.gif',
+      '/assets/obstacle19.gif', '/assets/obstacle20.gif'
     ];
 
     if (!gameStarted || gameOver) return;
@@ -74,10 +63,10 @@ const Game = () => {
     const interval = setInterval(() => {
       // Generate new obstacles
       if (obstacles.length < 5) {
-        setObstacles((prevObstacles) => [
+        setObstacles(prevObstacles => [
           ...prevObstacles,
           {
-            id: Date.now(), // Unique ID based on the current timestamp
+            id: Date.now(),
             x: Math.random() * 700 + 5,
             y: -50,
             width: 50 + Math.random() * 50,
@@ -89,20 +78,16 @@ const Game = () => {
       }
 
       // Move obstacles and check collisions
-      setObstacles((prevObstacles) => {
+      setObstacles(prevObstacles => {
         return prevObstacles
-          .map((obstacle) => {
+          .map(obstacle => {
             if (obstacle.y >= 500) {
-              return {
-                ...obstacle,
-                y: -50,
-                x: Math.random() * 500 + 50,
-              };
+              return { ...obstacle, y: -50, x: Math.random() * 500 + 50 };
             } else {
               return { ...obstacle, y: obstacle.y + obstacle.speed };
             }
           })
-          .filter((obstacle) => obstacle.y <= 500);
+          .filter(obstacle => obstacle.y <= 500);
       });
 
       // Handle collision detection
@@ -114,18 +99,18 @@ const Game = () => {
           carXPosition + 50 > obstacle.x
         ) {
           // Handle game over if collision is detected
-          setCollidedObstacleId(obstacle.id); // Store the ID of the collided obstacle
+          setCollidedObstacleId(obstacle.id);
           setGameOver(true);
           stopAllAudio();
-          clearInterval(interval);  // Stop the interval to halt further game updates
+          clearInterval(interval);
           return;
         }
       }
 
       // Increase score and adjust obstacle speed if game is ongoing
       if (!gameOver) {
-        setScore((prevScore) => prevScore + 1);
-        setObstacleBaseSpeed((prevSpeed) => prevSpeed + 0.005);
+        setScore(prevScore => prevScore + 1);
+        setObstacleBaseSpeed(prevSpeed => prevSpeed + 0.005);
       }
     }, 20);
 
@@ -147,11 +132,22 @@ const Game = () => {
     setScore(0);
     setObstacleBaseSpeed(2);
     setGameStarted(true);
-    setCollidedObstacleId(null); // Reset collided obstacle ID
+    setCollidedObstacleId(null);
     const bgAudio = backgroundAudio.current;
     bgAudio.currentTime = 0;
     bgAudio.play();
   };
+
+  // Keydown event listener for car movement
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (gameOver || !gameStarted) return;
+      moveCar(e.key);
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [gameOver, gameStarted]);
 
   return (
     <div className="game-container">
@@ -170,9 +166,9 @@ const Game = () => {
         }}
       />
 
-      {obstacles.map((obstacle, index) => (
+      {obstacles.map((obstacle) => (
         <img
-          key={obstacle.id} // Use obstacle's ID as the key
+          key={obstacle.id}
           src={obstacle.image}
           alt="Obstacle"
           className="obstacle"
@@ -188,13 +184,10 @@ const Game = () => {
 
       {collidedObstacleId && (
         <div className="collided-obstacle">
-
           {obstacles.find(obstacle => obstacle.id === collidedObstacleId) && (
             <img
               src={obstacles.find(obstacle => obstacle.id === collidedObstacleId).image}
               alt="Collided Obstacle"
-
-
             />
           )}
         </div>
@@ -207,36 +200,23 @@ const Game = () => {
       )}
       {gameOver && (
         <div style={{ zIndex: 1 }}>
-          {/* Restart button */}
           <button className="restart-button" onClick={restartGame} style={{ zIndex: 1 }}>
             Restart Game
           </button>
         </div>
       )}
 
-     
-        <div className="mobile-controls">
-          <button onClick={() => moveCar('ArrowUp')} className="control up">
-            Up
-          </button>
-          <div className="horizontal-controls">
-            <button onClick={() => moveCar('ArrowLeft')} className="control left">
-              Left
-            </button>
-            <button onClick={() => moveCar('ArrowRight')} className="control right">
-              Right
-            </button>
-          </div>
-          <button onClick={() => moveCar('ArrowDown')} className="control down">
-            Down
-          </button>
+      <div className="mobile-controls">
+        <button onClick={() => moveCar('ArrowUp')} className="control up">Up</button>
+        <div className="horizontal-controls">
+          <button onClick={() => moveCar('ArrowLeft')} className="control left">Left</button>
+          <button onClick={() => moveCar('ArrowRight')} className="control right">Right</button>
         </div>
-      
+        <button onClick={() => moveCar('ArrowDown')} className="control down">Down</button>
+      </div>
     </div>
   );
 };
-
-
 
 function App() {
   return (
@@ -244,16 +224,8 @@ function App() {
       <h1>Focus, Bro!</h1>
       <p>If you can control your mind, don't look at girls and make a 3000 score.</p>
       <Game />
-
-
-
-
-
     </div>
-
-
   );
 }
 
 export default App;
-
