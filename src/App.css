@@ -100,10 +100,14 @@ img {
 
   .control.up,
   .control.left,
+  .control.right,
   .control.down {
     width: 60px;
     height: 60px; /* Adjust the size of buttons for better tap area */
     font-size: 16px; /* Adjust font size inside buttons */
+    color: rgb(255, 255, 255);
+    background-color: black;
+   border-radius: 10px;
   }
 
   .horizontal-controls {
@@ -111,7 +115,7 @@ img {
   }
 
   .control.left {
-    margin-right: 10px; /* Adjust space between Left and Right */
+    margin-right: 250px; /* Adjust space between Left and Right */
   }
 }
 
