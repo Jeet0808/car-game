@@ -49,3 +49,31 @@ img {
   display: block;
   margin: 10px auto;
 }
+
+.mobile-controls {
+  position: fixed;
+  bottom: 20px;
+  left: 500px;
+}
+
+.control.up {
+  position: relative;
+  margin-left: 50px; /* Push up button to the center */
+  margin-bottom: 10px;
+}
+
+.horizontal-controls {
+  display: flex;
+  margin-top: -15px; /* Adjust spacing between rows */
+}
+
+.control.left {
+  margin-right: 220px; /* Add space between Left and Right */
+}
+
+.control.down {
+  position: relative;
+  margin-left: 50px; /* Align with Up button */
+  margin-top: -10px; /* Adjust the spacing with Left/Right */
+}
+

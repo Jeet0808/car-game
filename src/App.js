@@ -11,22 +11,20 @@ const Game = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [collidedObstacleId, setCollidedObstacleId] = useState(null);
 
-  const carSpeed = 28;
+
+  const carSpeed = 35;
 
   // Audio files using useRef
   const backgroundAudio = useRef(new Audio('/assets/back.mp3'));
 
-  // Start background audio
   const startBackgroundAudio = () => {
     const bgAudio = backgroundAudio.current;
     bgAudio.loop = true;
     bgAudio.play();
   };
 
-  // Stop all audio
   const stopAllAudio = () => {
     const bgAudio = backgroundAudio.current;
-
     bgAudio.pause();
     bgAudio.currentTime = 0;
   };
@@ -35,20 +33,25 @@ const Game = () => {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (gameOver || !gameStarted) return;
-      if (e.key === 'ArrowUp') {
-        setCarPosition((prevPosition) => (prevPosition > 0 ? prevPosition - carSpeed : prevPosition));
-      } else if (e.key === 'ArrowDown') {
-        setCarPosition((prevPosition) => (prevPosition < 430 ? prevPosition + carSpeed : prevPosition));
-      } else if (e.key === 'ArrowLeft') {
-        setCarXPosition((prevX) => (prevX > 5 ? prevX - carSpeed : prevX));
-      } else if (e.key === 'ArrowRight') {
-        setCarXPosition((prevX) => (prevX < 733 ? prevX + carSpeed : prevX));
-      }
+      moveCar(e.key);
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [gameOver, gameStarted]);
+
+  const moveCar = (direction) => {
+    if (gameOver || !gameStarted) return;
+    if (direction === 'ArrowUp') {
+      setCarPosition((prevPosition) => (prevPosition > 0 ? prevPosition - carSpeed : prevPosition));
+    } else if (direction === 'ArrowDown') {
+      setCarPosition((prevPosition) => (prevPosition < 430 ? prevPosition + carSpeed : prevPosition));
+    } else if (direction === 'ArrowLeft') {
+      setCarXPosition((prevX) => (prevX > 5 ? prevX - carSpeed : prevX));
+    } else if (direction === 'ArrowRight') {
+      setCarXPosition((prevX) => (prevX < 733 ? prevX + carSpeed : prevX));
+    }
+  };
 
   // Game loop
   useEffect(() => {
@@ -62,6 +65,7 @@ const Game = () => {
       '/assets/obstacle16.gif',
       '/assets/obstacle17.gif',
       '/assets/obstacle18.gif',
+      '/assets/obstacle19.gif',
       '/assets/obstacle20.gif',
     ];
 
@@ -121,7 +125,7 @@ const Game = () => {
       // Increase score and adjust obstacle speed if game is ongoing
       if (!gameOver) {
         setScore((prevScore) => prevScore + 1);
-        setObstacleBaseSpeed((prevSpeed) => prevSpeed + 0.002);
+        setObstacleBaseSpeed((prevSpeed) => prevSpeed + 0.005);
       }
     }, 20);
 
@@ -184,13 +188,13 @@ const Game = () => {
 
       {collidedObstacleId && (
         <div className="collided-obstacle">
-      
+
           {obstacles.find(obstacle => obstacle.id === collidedObstacleId) && (
             <img
               src={obstacles.find(obstacle => obstacle.id === collidedObstacleId).image}
               alt="Collided Obstacle"
-             
-             
+
+
             />
           )}
         </div>
@@ -201,19 +205,38 @@ const Game = () => {
           Start Game
         </button>
       )}
-
       {gameOver && (
-       <div style={{ zIndex: 1 }}>
-
-          <button className="restart-button" onClick={restartGame}style={{ zIndex: 1 }}>
-          
+        <div style={{ zIndex: 1 }}>
+          {/* Restart button */}
+          <button className="restart-button" onClick={restartGame} style={{ zIndex: 1 }}>
             Restart Game
           </button>
-        </div> 
+        </div>
       )}
+
+     
+        <div className="mobile-controls">
+          <button onClick={() => moveCar('ArrowUp')} className="control up">
+            Up
+          </button>
+          <div className="horizontal-controls">
+            <button onClick={() => moveCar('ArrowLeft')} className="control left">
+              Left
+            </button>
+            <button onClick={() => moveCar('ArrowRight')} className="control right">
+              Right
+            </button>
+          </div>
+          <button onClick={() => moveCar('ArrowDown')} className="control down">
+            Down
+          </button>
+        </div>
+      
     </div>
   );
 };
+
+
 
 function App() {
   return (
@@ -221,8 +244,16 @@ function App() {
       <h1>Focus, Bro!</h1>
       <p>If you can control your mind, don't look at girls and make a 3000 score.</p>
       <Game />
+
+
+
+
+
     </div>
+
+
   );
 }
 
 export default App;
+
