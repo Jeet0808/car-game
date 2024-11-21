@@ -1,12 +1,15 @@
 .App {
   text-align: center;
   font-family: Arial, sans-serif;
+  
 }
-
+body{
+  background-color: rgb(152, 152, 206);
+}
 .game-container {
   position: relative;
   width: 800px;
-  height: 500px;
+  height: 600px;
   background-color: rgb(0, 0, 0);
   margin: 20px auto;
   overflow: hidden;
@@ -76,7 +79,7 @@ img {
 @media (max-width: 768px) {
   .game-container {
     width: 100%;
-    height: 400px; /* Adjust the height for mobile screens */
+    height: 600px; /* Adjust the height for mobile screens */
   }
 
   .car {
@@ -122,7 +125,7 @@ img {
 /* For extra small devices */
 @media (max-width: 480px) {
   .game-container {
-    height: 300px; /* Adjust for very small screens */
+    height: 500px; /* Adjust for very small screens */
   }
 
   .car {

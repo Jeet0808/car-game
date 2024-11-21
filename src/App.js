@@ -33,7 +33,7 @@ const Game = () => {
     if (direction === 'ArrowUp') {
       setCarPosition((prevPosition) => (prevPosition > 0 ? prevPosition - carSpeed : prevPosition));
     } else if (direction === 'ArrowDown') {
-      setCarPosition((prevPosition) => (prevPosition < 430 ? prevPosition + carSpeed : prevPosition));
+      setCarPosition((prevPosition) => (prevPosition < 550 ? prevPosition + carSpeed : prevPosition));
     } else if (direction === 'ArrowLeft') {
       setCarXPosition((prevX) => (prevX > 5 ? prevX - carSpeed : prevX));
     } else if (direction === 'ArrowRight') {
@@ -191,7 +191,7 @@ const Game = () => {
       )}
       {gameOver && (
         <div style={{ zIndex: 1 }}>
-          <button className="restart-button" onClick={restartGame} style={{ zIndex: 1 }}>
+          <button id='restart' className="restart-button" onClick={restartGame} style={{ zIndex: 1 }}>
             Restart Game
           </button>
         </div>
