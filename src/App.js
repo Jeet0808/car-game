@@ -214,6 +214,12 @@ function App() {
     <div className="App">
       <h1>Focus, Bro!</h1>
       <p>If you can control your mind, don't look at girls and make a 3000 score.</p>
+        <h2>1. Kanav singh - A Highly focused guy . </h2>
+        
+        <h3>Try to breack his record 2000.</h3>
+        <h2>2. SHAURYA - extremely focused 'Even did't play the game' . </h2>
+        <h3>Try not to be like him. and play the game.</h3>
+
       <Game />
       <a href='https://jlss.netlify.app/'>Powerd by JLSS</a>
     
