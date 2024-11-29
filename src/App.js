@@ -165,7 +165,7 @@ const Game = () => {
   return (
     <div>
     <div className="game-container">
-      <div className="score">Score: {score}</div>
+
 
 
       <img
@@ -222,7 +222,7 @@ const Game = () => {
       )}
       
 
-     
+      <div className="score">Score: {score}</div>
     </div>
 
 

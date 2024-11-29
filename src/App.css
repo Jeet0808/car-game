@@ -155,6 +155,7 @@ cursor: pointer;
 
   .score {
     font-size: 16px; /* Make the score font smaller */
+    top: 40rem;
   }
 
   .mobile-controls {
@@ -235,8 +236,10 @@ cursor: pointer;
     height: 35px;
   }
 
+  
   .score {
-    font-size: 14px; /* Even smaller score font for small screens */
+    font-size: 16px; /* Make the score font smaller */
+    top: 42rem;
   }
 
   .mobile-controls {
