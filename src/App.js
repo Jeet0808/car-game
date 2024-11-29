@@ -11,6 +11,12 @@ const Game = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [collidedObstacleId, setCollidedObstacleId] = useState(null);
 
+  const [videoUrl, setVideoUrl] = useState(null); // New state to store video URL
+  const shortIds = [
+    "OQ5OI_5KokM", "AmVZSBOrhCI", "q8TTdhoxWm8", "VLtuR9U0-Dw", "rc8BLeE5XqY",
+    "Dzjm-UpBPIo", "Cjp6RVrOOW0", "1QfSHqczi54", "h8Ri_Fa6NCQ", "cNgL40UfhbA"
+  ];
+
   const carSpeed = 35;
 
   // Audio files using useRef
@@ -33,13 +39,26 @@ const Game = () => {
     if (direction === 'ArrowUp') {
       setCarPosition((prevPosition) => (prevPosition > 0 ? prevPosition - carSpeed : prevPosition));
     } else if (direction === 'ArrowDown') {
-      setCarPosition((prevPosition) => (prevPosition < 550 ? prevPosition + carSpeed : prevPosition));
+      setCarPosition((prevPosition) => (prevPosition < 620 ? prevPosition + carSpeed : prevPosition));
     } else if (direction === 'ArrowLeft') {
       setCarXPosition((prevX) => (prevX > 5 ? prevX - carSpeed : prevX));
     } else if (direction === 'ArrowRight') {
-      setCarXPosition((prevX) => (prevX < 733 ? prevX + carSpeed : prevX));
+      setCarXPosition((prevX) => (prevX < 735 ? prevX + carSpeed : prevX));
     }
   }, [gameOver, gameStarted]);
+
+  // Function to embed a random short video
+  const embedRandomShort = () => {
+    // Pick a random ID from the array
+    const randomIndex = Math.floor(Math.random() * shortIds.length);
+    const randomId = shortIds[randomIndex];
+
+    // Remove the used ID from the array
+    shortIds.splice(randomIndex, 1);
+
+    const videoEmbedUrl = `https://www.youtube.com/embed/${randomId}?autoplay=1`;
+    setVideoUrl(videoEmbedUrl); // Set video URL to the state
+  };
 
   // Game loop - generate and move obstacles, detect collisions
   useEffect(() => {
@@ -69,17 +88,18 @@ const Game = () => {
         ]);
       }
 
+
       // Move obstacles and check collisions
       setObstacles(prevObstacles => {
         return prevObstacles
           .map(obstacle => {
-            if (obstacle.y >= 500) {
-              return { ...obstacle, y: -50, x: Math.random() * 500 + 50 };
+            if (obstacle.y >= 650) {
+              return { ...obstacle, y: -50, x: Math.random() * 650 + 100 };
             } else {
               return { ...obstacle, y: obstacle.y + obstacle.speed };
             }
           })
-          .filter(obstacle => obstacle.y <= 500);
+          .filter(obstacle => obstacle.y <= 650);
       });
 
       // Handle collision detection
@@ -92,6 +112,7 @@ const Game = () => {
         ) {
           // Handle game over if collision is detected
           setCollidedObstacleId(obstacle.id);
+          embedRandomShort(); // Play the video when collision occurs
           setGameOver(true);
           stopAllAudio();
           clearInterval(interval);
@@ -128,21 +149,24 @@ const Game = () => {
     const bgAudio = backgroundAudio.current;
     bgAudio.currentTime = 0;
     bgAudio.play();
+    setVideoUrl(null);
   };
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (gameOver || !gameStarted) return;
       moveCar(e.key);
     };
-  
+
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [gameOver, gameStarted, moveCar]); // Add moveCar as a dependency
-  
+  }, [gameOver, gameStarted, moveCar]);
 
   return (
+    <div>
     <div className="game-container">
       <div className="score">Score: {score}</div>
+
 
       <img
         src="/assets/char1.gif"
@@ -154,6 +178,7 @@ const Game = () => {
           position: 'absolute',
           width: '50px',
           height: '50px',
+          zIndex: 15,
         }}
       />
 
@@ -162,17 +187,17 @@ const Game = () => {
           key={obstacle.id}
           src={obstacle.image}
           alt="Obstacle"
-          className="obstacle"
           style={{
+            position: 'absolute',
             top: `${obstacle.y}px`,
             left: `${obstacle.x}px`,
-            position: 'absolute',
             width: `${obstacle.width}px`,
             height: `${obstacle.height}px`,
           }}
         />
-      ))}
-
+      ))
+      } // Inside the JSX return:
+     
       {collidedObstacleId && (
         <div className="collided-obstacle">
           {obstacles.find(obstacle => obstacle.id === collidedObstacleId) && (
@@ -183,7 +208,6 @@ const Game = () => {
           )}
         </div>
       )}
-
       {!gameStarted && (
         <button className="start-button" onClick={startGame}>
           Start Game
@@ -191,41 +215,73 @@ const Game = () => {
       )}
       {gameOver && (
         <div style={{ zIndex: 1 }}>
-          <button id='restart' className="restart-button" onClick={restartGame} style={{ zIndex: 1 }}>
+          <button id='restart' className="restart-button" onClick={restartGame} >
             Restart Game
           </button>
         </div>
       )}
+      
 
-      <div className="mobile-controls">
-        <button onClick={() => moveCar('ArrowUp')} className="control up">Up</button>
-        <div className="horizontal-controls">
-          <button onClick={() => moveCar('ArrowLeft')} className="control left">Left</button>
-          <button onClick={() => moveCar('ArrowRight')} className="control right">Right</button>
-        </div>
-        <button onClick={() => moveCar('ArrowDown')} className="control down">Down</button>
-      </div>
+     
     </div>
+
+
+<div className="mobile-controls">
+<button onClick={() => moveCar('ArrowUp')} className="control up">Up</button>
+<div className="horizontal-controls">
+  <button onClick={() => moveCar('ArrowLeft')} className="control left">Left</button>
+  <button onClick={() => moveCar('ArrowRight')} className="control right">Right</button>
+</div>
+<button onClick={() => moveCar('ArrowDown')} className="control down">Down</button>
+</div>
+
+
+{videoUrl && (
+        <div
+          id="video-container"
+         
+        >
+          <iframe
+            src={videoUrl}
+            allow="autoplay"
+            allowFullScreen
+            style={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              borderRadius: '20px',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+              zIndex: 1, // Ensure the iframe itself is above other elements
+            }}
+          />
+          
+
+        </div>
+      )}
+</div>
   );
+  
+  
 };
+
+
 
 function App() {
   return (
     <div className="App">
-      <h1>Focus, Bro!</h1>
+       <h1>Focus, Bro! </h1>
+     
       <p>If you can control your mind, don't look at girls and make a 3000 score.</p>
-        <h2>1. Kanav singh - A Highly focused guy . </h2>
-        
-        <h3>Try to breack his record 2000.</h3>
-        <h2>2. SHAURYA - extremely focused 'Even did't play the game' . </h2>
-        <h3>Try not to be like him. and play the game.</h3>
 
       <Game />
-      <a href='https://jlss.netlify.app/'>Powerd by JLSS</a>
-    
+   
+      <a href='https://jlss.netlify.app/'>
+      <h3>Powerd by JLSS</h3></a>
+
     </div>
     
   );
 }
+
 
 export default App;
