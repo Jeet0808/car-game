@@ -15,11 +15,49 @@ const Game = () => {
   const [flipped, setFlipped] = useState(false); // State to manage flipping
   const [videoUrl, setVideoUrl] = useState(null); // New state to store video URL
   const shortIds = [
-   "pzyyMBJft4k","h7OFu82sRog",
-   ,"8-OlcrB5W4I","0cAeZIhpr4U","EmqDnnIn4Wg","8-OlcrB5W4I","0cAeZIhpr4U","EmqDnnIn4Wg","EmqDnnIn4Wg","HKGBgQhnhHk",
-    "qunmTVVcyCI","Ppsq1uevyAI", "TEodzobvgak","fexkFnXDkis","IX3Tb2xpO_I","Ppsq1uevyAI","_uVlwzOnmOU","6il6LvUApLM","g23Cif5PWBI","RvPQVEaODVE",
-     "IX3Tb2xpO_I","qunmTVVcyCI","9HTQCTFRgpA","2dPkJ5WnopM","h7OFu82sRog","A5nXv6333lg","Q-kWkaCj3TE",
-   "JVFHmqTCB6Q",
+    "pzyyMBJft4k", "h7OFu82sRog",
+    , "8-OlcrB5W4I", "0cAeZIhpr4U", "EmqDnnIn4Wg", "8-OlcrB5W4I", "0cAeZIhpr4U", "EmqDnnIn4Wg", "EmqDnnIn4Wg", "HKGBgQhnhHk",
+    "Ppsq1uevyAI",  "fexkFnXDkis", "IX3Tb2xpO_I", "Ppsq1uevyAI", "_uVlwzOnmOU", "6il6LvUApLM", "g23Cif5PWBI", "RvPQVEaODVE",
+      "2dPkJ5WnopM","XtjRwzJ4mWo", "h7OFu82sRog", "A5nXv6333lg", "Q-kWkaCj3TE",
+    "JVFHmqTCB6Q","04CjMg2OhZs","ZqB3yvwuXko",
+    "WbJRIfVXuqU","vgogO03a4pw","GJHE-MJ4pzQ"
+,"4BrwdIJDd8g","9DaK1X0TRHc"
+,"jbULuBbea40","KGTVC3Nffc0","OBwP6omjyv0"
+,"xTuk_Qwmg5E","XtjRwzJ4mWo",
+"UOZnEYt13ss",
+"B0JnQtNFWgw"
+,"V-MFonxJFko",
+"kN7f4Muf4ng",
+"DY5uo9o4wD4",
+"VMuBqYCwg0A",
+"Hsje984x8yI",
+"Doz9u1LBMIE",
+"2ZVHN7Ts7Y4",
+"Lg5iCrLGfHI",
+,"Hn7GbvDigXs",
+"YwHtD8dqQH8",
+,"mwa2kzsOYfQ",
+"8pXs5-VNRo8",
+"jFz7aARvByQ",
+"t9pdFGPouHo",
+"eUg3ZgTDF8M",
+"m4lBPYYiDOo",
+"YYrFd2dSpnM",
+"CHZ6_IjMJzc",
+"4lfJofqXDDg",
+"0zKHwZ4eNoA",
+"G5gm24apmlU",
+"Pcx8dnk6K-c",
+"t7SWsLlJllY",
+"-fK2DmyBhjY",
+"Dv0w6kn5gHo",
+"eVQa3hfFLpo",
+"oNW5Cqt96_w",
+"cNheUml-BfA",
+"D-zjVTfAR1g",
+"9Re0A3mfcIg",
+
+
   ];
 
   const carSpeed = 35;
@@ -56,7 +94,7 @@ const Game = () => {
     }
   }, [gameOver, gameStarted]);
 
-  
+
   // Function to embed a random short video
   const embedRandomShort = () => {
     // Pick a random ID from the array
@@ -174,88 +212,86 @@ const Game = () => {
 
   return (
     <div>
-    <div className="game-container">
+      <div className="game-container">
 
 
 
-      <img
-        src="/assets/char1.gif"
-        alt="Car"
-        className="car"
-        style={{
-          top: `${carPosition}px`,
-          left: `${carXPosition}px`,
-          position: 'absolute',
-          width: '50px',
-          height: '50px',
-          zIndex: 15,
-          transform: `
+        <img
+          src="/assets/char1.gif"
+          alt="Car"
+          className="car"
+          style={{
+            top: `${carPosition}px`,
+            left: `${carXPosition}px`,
+            position: 'absolute',
+            width: '50px',
+            height: '50px',
+            zIndex: 15,
+            transform: `
           scaleX(${flipped ? -1 : 1}) 
           rotate(${rotation}deg)
         `, // Apply flipping and rotation
-        transition: 'transform 0.2s ease', // Smooth transition
-        }}
-      />
-
-      {obstacles.map((obstacle) => (
-        <img
-          key={obstacle.id}
-          src={obstacle.image}
-          alt="Obstacle"
-          style={{
-            position: 'absolute',
-            top: `${obstacle.y}px`,
-            left: `${obstacle.x}px`,
-            width: `${obstacle.width}px`,
-            height: `${obstacle.height}px`,
+            transition: 'transform 0.2s ease', // Smooth transition
           }}
         />
-      ))
-      } // Inside the JSX return:
-     
-      {collidedObstacleId && (
-        <div className="collided-obstacle">
-          {obstacles.find(obstacle => obstacle.id === collidedObstacleId) && (
-            <img
-              src={obstacles.find(obstacle => obstacle.id === collidedObstacleId).image}
-              alt="Collided Obstacle"
-            />
-          )}
-        </div>
-      )}
-      {!gameStarted && (
-        <button className="start-button" onClick={startGame}>
-          Start Game
-        </button>
-      )}
-      {gameOver && (
-        <div style={{ zIndex: 1 }}>
-          <button id='restart' className="restart-button" onClick={restartGame} >
-            Restart Game
+
+        {obstacles.map((obstacle) => (
+          <img
+            key={obstacle.id}
+            src={obstacle.image}
+            alt="Obstacle"
+            style={{
+              position: 'absolute',
+              top: `${obstacle.y}px`,
+              left: `${obstacle.x}px`,
+              width: `${obstacle.width}px`,
+              height: `${obstacle.height}px`,
+            }}
+          />
+        ))
+        } // Inside the JSX return:
+
+        {collidedObstacleId && (
+          <div className="collided-obstacle">
+            {obstacles.find(obstacle => obstacle.id === collidedObstacleId) && (
+              <img
+                src={obstacles.find(obstacle => obstacle.id === collidedObstacleId).image}
+                alt="Collided Obstacle"
+              />
+            )}
+          </div>
+        )}
+        {!gameStarted && (
+          <button className="start-button" onClick={startGame}>
+            Start Game
           </button>
+        )}
+        {gameOver && (
+          <div style={{ zIndex: 1 }}>
+            <button id='restart' className="restart-button" onClick={restartGame} >
+              Restart Game
+            </button>
+          </div>
+        )}
+
+
+        <div className="score">Score: {score}</div>
+      </div>
+
+
+      <div className="mobile-controls">
+        <button onClick={() => moveCar('ArrowUp')} className="control up">Up</button>
+        <div className="horizontal-controls">
+          <button onClick={() => moveCar('ArrowLeft')} className="control left">Left</button>
+          <button onClick={() => moveCar('ArrowRight')} className="control right">Right</button>
         </div>
-      )}
-      
-
-      <div className="score">Score: {score}</div>
-    </div>
+        <button onClick={() => moveCar('ArrowDown')} className="control down">Down</button>
+      </div>
 
 
-<div className="mobile-controls">
-<button onClick={() => moveCar('ArrowUp')} className="control up">Up</button>
-<div className="horizontal-controls">
-  <button onClick={() => moveCar('ArrowLeft')} className="control left">Left</button>
-  <button onClick={() => moveCar('ArrowRight')} className="control right">Right</button>
-</div>
-<button onClick={() => moveCar('ArrowDown')} className="control down">Down</button>
-</div>
-
-
-{videoUrl && (
-        <div
-          id="video-container"
-         
-        >
+      {videoUrl && (
+        <div id="video-container">
+          
           <iframe
             src={videoUrl}
             allow="autoplay"
@@ -269,14 +305,14 @@ const Game = () => {
               zIndex: 1, // Ensure the iframe itself is above other elements
             }}
           />
-          
+
 
         </div>
       )}
-</div>
+    </div>
   );
-  
-  
+
+
 };
 
 
@@ -284,17 +320,17 @@ const Game = () => {
 function App() {
   return (
     <div className="App">
-       <h1>Focus, Bro! </h1>
-     
+      <h1>Focus, Bro! </h1>
+
       <p>If you can control your mind, don't look at girls and make a 3000 score.</p>
 
       <Game />
-   
+
       <a href='https://jlss.netlify.app/'>
-      <h3>Powerd by JLSS</h3></a>
+        <h3>Powerd by JLSS</h3></a>
 
     </div>
-    
+
   );
 }
 
