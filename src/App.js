@@ -10,11 +10,15 @@ const Game = () => {
   const [obstacleBaseSpeed, setObstacleBaseSpeed] = useState(2);
   const [gameStarted, setGameStarted] = useState(false);
   const [collidedObstacleId, setCollidedObstacleId] = useState(null);
-
+  // const [carImage, setCarImage] = useState('/assets/char1.gif');
+  const [rotation, setRotation] = useState(0);
+  const [flipped, setFlipped] = useState(false); // State to manage flipping
   const [videoUrl, setVideoUrl] = useState(null); // New state to store video URL
   const shortIds = [
-    "OQ5OI_5KokM", "AmVZSBOrhCI", "q8TTdhoxWm8", "VLtuR9U0-Dw", "rc8BLeE5XqY",
-    "Dzjm-UpBPIo", "Cjp6RVrOOW0", "1QfSHqczi54", "h8Ri_Fa6NCQ", "cNgL40UfhbA"
+   "pzyyMBJft4k","h7OFu82sRog",
+   "foEUtbLVBgw","8-OlcrB5W4I","0cAeZIhpr4U","EmqDnnIn4Wg",,"8-OlcrB5W4I","0cAeZIhpr4U","EmqDnnIn4Wg","EmqDnnIn4Wg","HKGBgQhnhHk","HKGBgQhnhHk","HKGBgQhnhHk",
+    "qunmTVVcyCI","Ppsq1uevyAI","Ppsq1uevyAI","_uVlwzOnmOU","6il6LvUApLM","g23Cif5PWBI","oM98Djzr2Xc","RvPQVEaODVE",
+    "TEodzobvgak", "fexkFnXDkis", "IX3Tb2xpO_I","pzyyMBJft4k","pzyyMBJft4k","pzyyMBJft4k","pzyyMBJft4k"
   ];
 
   const carSpeed = 35;
@@ -41,12 +45,17 @@ const Game = () => {
     } else if (direction === 'ArrowDown') {
       setCarPosition((prevPosition) => (prevPosition < 620 ? prevPosition + carSpeed : prevPosition));
     } else if (direction === 'ArrowLeft') {
+      setRotation(0); // No rotation for flipping horizontally
+      setFlipped(true); // Flip horizontally
       setCarXPosition((prevX) => (prevX > 5 ? prevX - carSpeed : prevX));
     } else if (direction === 'ArrowRight') {
+      setRotation(0); // No rotation for flipping horizontally
+      setFlipped(false);
       setCarXPosition((prevX) => (prevX < 735 ? prevX + carSpeed : prevX));
     }
   }, [gameOver, gameStarted]);
 
+  
   // Function to embed a random short video
   const embedRandomShort = () => {
     // Pick a random ID from the array
@@ -179,6 +188,11 @@ const Game = () => {
           width: '50px',
           height: '50px',
           zIndex: 15,
+          transform: `
+          scaleX(${flipped ? -1 : 1}) 
+          rotate(${rotation}deg)
+        `, // Apply flipping and rotation
+        transition: 'transform 0.2s ease', // Smooth transition
         }}
       />
 
