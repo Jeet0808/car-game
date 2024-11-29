@@ -16,8 +16,8 @@ const Game = () => {
   const [videoUrl, setVideoUrl] = useState(null); // New state to store video URL
   const shortIds = [
    "pzyyMBJft4k","h7OFu82sRog",
-   "foEUtbLVBgw","8-OlcrB5W4I","0cAeZIhpr4U","EmqDnnIn4Wg","8-OlcrB5W4I","0cAeZIhpr4U","EmqDnnIn4Wg","EmqDnnIn4Wg","HKGBgQhnhHk","HKGBgQhnhHk","HKGBgQhnhHk",
-    "qunmTVVcyCI","Ppsq1uevyAI", "TEodzobvgak","fexkFnXDkis","IX3Tb2xpO_I","Ppsq1uevyAI","_uVlwzOnmOU","6il6LvUApLM","g23Cif5PWBI","oM98Djzr2Xc","RvPQVEaODVE",
+   ,"8-OlcrB5W4I","0cAeZIhpr4U","EmqDnnIn4Wg","8-OlcrB5W4I","0cAeZIhpr4U","EmqDnnIn4Wg","EmqDnnIn4Wg","HKGBgQhnhHk",
+    "qunmTVVcyCI","Ppsq1uevyAI", "TEodzobvgak","fexkFnXDkis","IX3Tb2xpO_I","Ppsq1uevyAI","_uVlwzOnmOU","6il6LvUApLM","g23Cif5PWBI","RvPQVEaODVE",
      "IX3Tb2xpO_I","qunmTVVcyCI","9HTQCTFRgpA","2dPkJ5WnopM","h7OFu82sRog","A5nXv6333lg","Q-kWkaCj3TE",
    "JVFHmqTCB6Q",
   ];
@@ -25,7 +25,7 @@ const Game = () => {
   const carSpeed = 35;
 
   // Audio files using useRef
-  const backgroundAudio = useRef(new Audio('/assets/back.mp3'));
+  const backgroundAudio = useRef(new Audio('/assets/bksong.mp3'));
 
   const startBackgroundAudio = () => {
     const bgAudio = backgroundAudio.current;
