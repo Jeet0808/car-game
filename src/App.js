@@ -15,50 +15,22 @@ const Game = () => {
   const [flipped, setFlipped] = useState(false); // State to manage flipping
   const [videoUrl, setVideoUrl] = useState(null); // New state to store video URL
   const shortIds = [
-    "pzyyMBJft4k", "h7OFu82sRog",
-    , "8-OlcrB5W4I", "0cAeZIhpr4U", "EmqDnnIn4Wg", "8-OlcrB5W4I", "0cAeZIhpr4U", "EmqDnnIn4Wg", "EmqDnnIn4Wg", "HKGBgQhnhHk",
-    "Ppsq1uevyAI",  "fexkFnXDkis", "IX3Tb2xpO_I", "Ppsq1uevyAI", "_uVlwzOnmOU", "6il6LvUApLM", "g23Cif5PWBI", "RvPQVEaODVE",
-      "2dPkJ5WnopM","XtjRwzJ4mWo", "h7OFu82sRog", "A5nXv6333lg", "Q-kWkaCj3TE",
-    "JVFHmqTCB6Q","04CjMg2OhZs","ZqB3yvwuXko",
-    "WbJRIfVXuqU","vgogO03a4pw","GJHE-MJ4pzQ"
-,"4BrwdIJDd8g","9DaK1X0TRHc"
-,"jbULuBbea40","KGTVC3Nffc0","OBwP6omjyv0"
-,"xTuk_Qwmg5E","XtjRwzJ4mWo",
-"UOZnEYt13ss",
-"B0JnQtNFWgw"
-,"V-MFonxJFko",
-"kN7f4Muf4ng",
-"DY5uo9o4wD4",
-"VMuBqYCwg0A",
-"Hsje984x8yI",
-"Doz9u1LBMIE",
-"2ZVHN7Ts7Y4",
-"Lg5iCrLGfHI",
-,"Hn7GbvDigXs",
-"YwHtD8dqQH8",
-,"mwa2kzsOYfQ",
-"8pXs5-VNRo8",
-"jFz7aARvByQ",
-"t9pdFGPouHo",
-"eUg3ZgTDF8M",
-"m4lBPYYiDOo",
-"YYrFd2dSpnM",
-"CHZ6_IjMJzc",
-"4lfJofqXDDg",
-"0zKHwZ4eNoA",
-"G5gm24apmlU",
-"Pcx8dnk6K-c",
-"t7SWsLlJllY",
-"-fK2DmyBhjY",
-"Dv0w6kn5gHo",
-"eVQa3hfFLpo",
-"oNW5Cqt96_w",
-"cNheUml-BfA",
-"D-zjVTfAR1g",
-"9Re0A3mfcIg",
-
-
+    "h7OFu82sRog", "8-OlcrB5W4I", "0cAeZIhpr4U", "EmqDnnIn4Wg", "8-OlcrB5W4I", 
+    "0cAeZIhpr4U", "EmqDnnIn4Wg", "EmqDnnIn4Wg", "HKGBgQhnhHk", "Ppsq1uevyAI", 
+    "IX3Tb2xpO_I", "Ppsq1uevyAI", "_uVlwzOnmOU", "6il6LvUApLM", "g23Cif5PWBI", 
+    "RvPQVEaODVE", "2dPkJ5WnopM", "XtjRwzJ4mWo", "h7OFu82sRog", "A5nXv6333lg", 
+    "Q-kWkaCj3TE", "JVFHmqTCB6Q", "04CjMg2OhZs", "ZqB3yvwuXko", "WbJRIfVXuqU", 
+    "vgogO03a4pw", "GJHE-MJ4pzQ", "4BrwdIJDd8g", "9DaK1X0TRHc", "jbULuBbea40", 
+    "KGTVC3Nffc0", "OBwP6omjyv0", "xTuk_Qwmg5E", "XtjRwzJ4mWo", "UOZnEYt13ss", 
+    "B0JnQtNFWgw", "V-MFonxJFko", "kN7f4Muf4ng", "VMuBqYCwg0A", "Hsje984x8yI", 
+    "Doz9u1LBMIE", "2ZVHN7Ts7Y4", "Lg5iCrLGfHI", "Hn7GbvDigXs", "YwHtD8dqQH8", 
+    "mwa2kzsOYfQ", "8pXs5-VNRo8", "jFz7aARvByQ", "t9pdFGPouHo", "eUg3ZgTDF8M", 
+    "m4lBPYYiDOo", "YYrFd2dSpnM", "CHZ6_IjMJzc", "4lfJofqXDDg", "0zKHwZ4eNoA", 
+    "G5gm24apmlU", "t7SWsLlJllY", "-fK2DmyBhjY", "Dv0w6kn5gHo", "eVQa3hfFLpo", 
+    "oNW5Cqt96_w", "cNheUml-BfA", "D-zjVTfAR1g", "9Re0A3mfcIg"
   ];
+// Initialize the state with the original array
+const [shortIdsstate, setShortIds] = useState(shortIds);
 
   const carSpeed = 35;
 
@@ -95,14 +67,21 @@ const Game = () => {
   }, [gameOver, gameStarted]);
 
 
+  
+
   // Function to embed a random short video
   const embedRandomShort = () => {
+    if (shortIdsstate.length === 0) {
+      console.log("No more videos to play.");
+      return;
+    }
     // Pick a random ID from the array
     const randomIndex = Math.floor(Math.random() * shortIds.length);
-    const randomId = shortIds[randomIndex];
-
-    // Remove the used ID from the array
-    shortIds.splice(randomIndex, 1);
+    const randomId = shortIdsstate[randomIndex];
+    // Remove the used ID from the array immutably
+    const updatedShortIds = shortIdsstate.filter((_, index) => index !== randomIndex);
+    setShortIds(updatedShortIds);
+    
 
     const videoEmbedUrl = `https://www.youtube.com/embed/${randomId}?autoplay=1`;
     setVideoUrl(videoEmbedUrl); // Set video URL to the state
@@ -291,7 +270,7 @@ const Game = () => {
 
       {videoUrl && (
         <div id="video-container">
-          
+
           <iframe
             src={videoUrl}
             allow="autoplay"
