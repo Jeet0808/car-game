@@ -16,9 +16,10 @@ const Game = () => {
   const [videoUrl, setVideoUrl] = useState(null); // New state to store video URL
   const shortIds = [
    "pzyyMBJft4k","h7OFu82sRog",
-   "foEUtbLVBgw","8-OlcrB5W4I","0cAeZIhpr4U","EmqDnnIn4Wg",,"8-OlcrB5W4I","0cAeZIhpr4U","EmqDnnIn4Wg","EmqDnnIn4Wg","HKGBgQhnhHk","HKGBgQhnhHk","HKGBgQhnhHk",
-    "qunmTVVcyCI","Ppsq1uevyAI","Ppsq1uevyAI","_uVlwzOnmOU","6il6LvUApLM","g23Cif5PWBI","oM98Djzr2Xc","RvPQVEaODVE",
-    "TEodzobvgak", "fexkFnXDkis", "IX3Tb2xpO_I","pzyyMBJft4k","pzyyMBJft4k","pzyyMBJft4k","pzyyMBJft4k"
+   "foEUtbLVBgw","8-OlcrB5W4I","0cAeZIhpr4U","EmqDnnIn4Wg","8-OlcrB5W4I","0cAeZIhpr4U","EmqDnnIn4Wg","EmqDnnIn4Wg","HKGBgQhnhHk","HKGBgQhnhHk","HKGBgQhnhHk",
+    "qunmTVVcyCI","Ppsq1uevyAI", "TEodzobvgak","fexkFnXDkis","IX3Tb2xpO_I","Ppsq1uevyAI","_uVlwzOnmOU","6il6LvUApLM","g23Cif5PWBI","oM98Djzr2Xc","RvPQVEaODVE",
+    "TEodzobvgak", "fexkFnXDkis", "IX3Tb2xpO_I","pzyyMBJft4k","pzyyMBJft4k","qunmTVVcyCI","Ppsq1uevyAI", 
+    "TEodzobvgak","fexkFnXDkis","IX3Tb2xpO_I","JVFHmqTCB6Q",
   ];
 
   const carSpeed = 35;
