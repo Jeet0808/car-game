@@ -235,7 +235,8 @@ img {
    
    color: #ffffff;
   
-    margin-top: 25rem;
+    margin-top: 0.5rem;
+    margin-left: -11rem;
      
    cursor: pointer;
   }

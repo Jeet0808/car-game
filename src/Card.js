@@ -1,5 +1,12 @@
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+
+
 function Card(params) {
+    
+    // State for comment input
+    const [comment, setComment] = useState("");
     const obstacles = params.obstacles;
+
     const collidedObstacleId = params.collidedObstacleId;
     const collidedObstacle = obstacles.find(
         (obstacle) => obstacle.id === collidedObstacleId
@@ -11,27 +18,41 @@ function Card(params) {
     const mendata = [
         "Kanav",
         "SHAURYA",
-        "Kavyansh",
+        "Mark",
+        "Jeff",
+        "SHAURYA",
         "Swetabh",
     ];
 
     const girlsdta = [
         "Lisa",
-        "Menu",
-        "Anushka",
         "Nancy",
         "Riyana",
         "Nena",
-        
+        "Ross",
+        "Babita"
+
     ];
 
-    const randomIndex = Math.floor(Math.random() * mendata.length);
-    const randommen = mendata[randomIndex];
-    const upperCasemen = randommen.toUpperCase(); // Call toUpperCase correctly
 
-    const girlrandome = Math.floor(Math.random() * girlsdta.length);
-    const girlran = girlsdta[girlrandome]; // Use the correct random index for girlsdta
 
+
+
+
+    const handleCommentChange = (event) => {
+        setComment(event.target.value); // Update comment state
+    };
+
+    const handleCommentSubmit = () => {
+        console.log("User Comment:", comment);
+        setComment(""); // Clear input field after submitting
+    };
+
+    function randomnogen() {
+        const randomIndex = Math.floor(Math.random() * mendata.length);
+
+        return randomIndex;
+    }
     return (
         <div className="parent-girl">
             <div className="girl-message">
@@ -41,18 +62,25 @@ function Card(params) {
                     alt="girl"
                 />
 
-                <h2>{girlran}</h2>
+                <h2>{girlsdta[randomnogen()]}</h2>
                 <hr />
 
                 <p id="message">
                     Ooh {upperCaseName} darling I can't go out with you today.
-                    Because I am going out with {upperCasemen} tonight.
+                    Because I am going out with {mendata[randomnogen()]} tonight.
                 </p>
                 <p id="message2">
                     You try another girl.
                     ~but tomorrow we both go out ok: {upperCaseName}.
                 </p>
             </div>
+            <input
+                id="comment"
+                placeholder="Reply"
+                value={comment} // Bind input value to state
+                onChange={handleCommentChange} // Handle user input
+            />
+            <button id="btn3" onClick={handleCommentSubmit}>Send</button>
         </div>
     );
 };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Card from './Card';
-import App from './App';
+
 
 
 //const Game = () =>
@@ -24,18 +24,24 @@ function Game(params) {
     const [userName, setUserName] = useState(""); 
     const shortIds = [
       "h7OFu82sRog", "8-OlcrB5W4I", "0cAeZIhpr4U", "EmqDnnIn4Wg", "8-OlcrB5W4I", 
-      "0cAeZIhpr4U", "EmqDnnIn4Wg", "EmqDnnIn4Wg", "HKGBgQhnhHk", "Ppsq1uevyAI", 
-       "Ppsq1uevyAI", "_uVlwzOnmOU", "6il6LvUApLM", "g23Cif5PWBI", 
-      "RvPQVEaODVE", "2dPkJ5WnopM", "XtjRwzJ4mWo", "h7OFu82sRog", "A5nXv6333lg", 
-      "Q-kWkaCj3TE", "JVFHmqTCB6Q", "04CjMg2OhZs", "ZqB3yvwuXko", "WbJRIfVXuqU", 
+     "_uVlwzOnmOU", "6il6LvUApLM", "g23Cif5PWBI", 
+       "kN7f4Muf4ng", "VMuBqYCwg0A", "Hsje984x8yI", 
+      "Doz9u1LBMIE", "2ZVHN7Ts7Y4", "Lg5iCrLGfHI", "Hn7GbvDigXs", "YwHtD8dqQH8", 
+      "mwa2kzsOYfQ", "8pXs5-VNRo8",
+      "0cAeZIhpr4U", "2dPkJ5WnopM", "XtjRwzJ4mWo", "h7OFu82sRog", "A5nXv6333lg", 
+      "EmqDnnIn4Wg", "EmqDnnIn4Wg", "HKGBgQhnhHk", "Ppsq1uevyAI", 
+      "Ppsq1uevyAI","9jnXteTzzN0",
+      "RvPQVEaODVE", "Q-kWkaCj3TE", "JVFHmqTCB6Q","V-MFonxJFko", "04CjMg2OhZs", "ZqB3yvwuXko", "WbJRIfVXuqU", 
       "vgogO03a4pw", "GJHE-MJ4pzQ", "4BrwdIJDd8g", "9DaK1X0TRHc", "jbULuBbea40", 
       "KGTVC3Nffc0", "OBwP6omjyv0", "xTuk_Qwmg5E", "XtjRwzJ4mWo", "UOZnEYt13ss", 
-      "B0JnQtNFWgw", "V-MFonxJFko", "kN7f4Muf4ng", "VMuBqYCwg0A", "Hsje984x8yI", 
-      "Doz9u1LBMIE", "2ZVHN7Ts7Y4", "Lg5iCrLGfHI", "Hn7GbvDigXs", "YwHtD8dqQH8", 
-      "mwa2kzsOYfQ", "8pXs5-VNRo8", "jFz7aARvByQ", "t9pdFGPouHo", "eUg3ZgTDF8M", 
+      "B0JnQtNFWgw", "V-MFonxJFko", "jFz7aARvByQ","V-MFonxJFko", "t9pdFGPouHo", "eUg3ZgTDF8M", 
       "m4lBPYYiDOo", "YYrFd2dSpnM", "CHZ6_IjMJzc", "4lfJofqXDDg", "0zKHwZ4eNoA", 
       "G5gm24apmlU", "t7SWsLlJllY", "-fK2DmyBhjY", "Dv0w6kn5gHo", "eVQa3hfFLpo", 
-      "oNW5Cqt96_w", "cNheUml-BfA", "D-zjVTfAR1g", "9Re0A3mfcIg"
+      "oNW5Cqt96_w", "cNheUml-BfA", "D-zjVTfAR1g", "9Re0A3mfcIg","VMuBqYCwg0A",
+      "W4rcXFSDDcA","rcLmTehwd7M",
+      
+
+
     ]; 
   // Initialize the state with the original array
   const [shortIdsstate, setShortIds] = useState(shortIds);
