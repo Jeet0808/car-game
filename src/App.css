@@ -1,28 +1,26 @@
-
-
-
-body{
+body {
   background-color: rgba(76, 76, 83, 0.489);
 }
 
-#restart{
+#restart {
   z-index: 1;
- 
+
   position: absolute;
 
   transform: translateX(-50%);
-padding: 10px 20px;
-background-color: rgb(138, 155, 211);
-border-radius: 20px;
-color: #000000;
- 
- 
-  left: 25rem;
-cursor: pointer;
- 
+  padding: 10px 20px;
+  background-color: rgb(0, 0, 0);
+  border-radius: 20px;
+  color: #ffffff;
+
+
+  left: 50%;
+
+  cursor: pointer;
+
 
 }
- 
+
 .game-container {
   position: relative;
   width: 800px;
@@ -66,11 +64,12 @@ img {
   margin: 10px auto;
 }
 
-.mobile-controls{
+.mobile-controls {
   position: relative;
   bottom: 20px;
   left: 50%;
-  transform: translateX(-50%); /* Center the controls */
+  transform: translateX(-50%);
+  /* Center the controls */
 }
 
 .control.up {
@@ -82,11 +81,12 @@ img {
 .horizontal-controls {
   display: flex;
   margin-top: -15px;
- 
+
 }
 
 .control.left {
-  margin-right: 20px; /* Adjust the space between Left and Right */
+  margin-right: 20px;
+  /* Adjust the space between Left and Right */
 }
 
 .control.down {
@@ -94,74 +94,85 @@ img {
   margin-top: -10px;
   left: 10rem;
 }
+
 .mobile-controls {
   display: none;
 }
-#video-container {
- 
 
-    position: absolute;
-    height: 500px;
-   top:35rem;
-    margin-left: auto;
-    margin-right: auto;
-    z-index:  10;
-    width: 100%;
-    height: 100%;
-   
-  
+#video-container {
+
+
+  position: absolute;
+  height: 500px;
+  top: 40rem;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+
+
 }
 
 .game-container {
-  position: relative; /* or absolute or fixed */
-  z-index: 1; /* Lower than the video */
-}
-.start-button{
+  position: relative;
+  /* or absolute or fixed */
   z-index: 1;
- 
+  /* Lower than the video */
+}
+
+.start-button {
+  z-index: 1;
+
   position: absolute;
- top: 15rem;
+  top: 15rem;
   transform: translateX(-50%);
-padding: 10px 20px;
-background-color: rgb(216, 232, 249);
-border-radius: 20px;
-color: #000000;
- 
- 
+  padding: 10px 20px;
+  background-color: rgb(216, 232, 249);
+  border-radius: 20px;
+  color: #000000;
+
+
   left: 15rem;
-cursor: pointer;
- 
+  cursor: pointer;
+
 }
 
 /* Media query for mobile responsiveness */
 @media (max-width: 908px) {
   .game-container {
     width: 100%;
-    height: 600px; /* Adjust the height for mobile screens */
+    height: 600px;
+    /* Adjust the height for mobile screens */
   }
+
   .mobile-controls {
     display: block;
   }
-  
+
   .car {
-    width: 40px; /* Make the car smaller for mobile */
+    width: 40px;
+    /* Make the car smaller for mobile */
     height: 80px;
   }
 
   .obstacle {
-    width: 40px; /* Make obstacles smaller for mobile */
+    width: 40px;
+    /* Make obstacles smaller for mobile */
     height: 40px;
   }
 
   .score {
-    font-size: 16px; /* Make the score font smaller */
+    font-size: 16px;
+    /* Make the score font smaller */
     top: 40rem;
   }
 
   .mobile-controls {
     display: block;
     left: 50%;
-    transform: translateX(-50%); /* Keep controls centered */
+    transform: translateX(-50%);
+    /* Keep controls centered */
   }
 
   .control.up,
@@ -169,65 +180,70 @@ cursor: pointer;
   .control.right,
   .control.down {
     width: 60px;
-    height: 60px; /* Adjust the size of buttons for better tap area */
-    font-size: 16px; /* Adjust font size inside buttons */
+    height: 60px;
+    /* Adjust the size of buttons for better tap area */
+    font-size: 16px;
+    /* Adjust font size inside buttons */
     color: rgb(255, 255, 255);
     background-color: black;
-   border-radius: 10px;
+    border-radius: 10px;
   }
 
   .horizontal-controls {
-    justify-content: center; /* Center the Left and Right buttons */
+    justify-content: center;
+    /* Center the Left and Right buttons */
   }
 
   .control.left {
-    margin-right: 250px; /* Adjust space between Left and Right */
+    margin-right: 250px;
+    /* Adjust space between Left and Right */
   }
 }
 
 /* For extra small devices */
-@media (max-width: 520px) {
+@media (max-width: 490px) {
   .game-container {
-    height: 700px; /* Adjust for very small screens */
+    height: 700px;
+    /* Adjust for very small screens */
   }
+
+  #video-container {
+
+
+    position: absolute;
+    height: 500px;
+    top: 85%;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+
+
+  }
+
+  #restart {
+
+
+    border-radius: 20px;
+     position: absolute;
+   
+     transform: translateX(-50%);
+   padding: 5px 10px;
+   background-color: rgb(0, 0, 0);
+   
+   
+   color: #ffffff;
   
-#video-container {
- 
+    margin-top: 25rem;
+     
+   cursor: pointer;
+  }
 
-  position: absolute;
-  height: 500px;
- top:60%;
-  margin-left: auto;
-  margin-right: auto;
-  z-index:  10;
-  width: 100%;
-  height: 100%;
- 
-
-}
-#restart{
-  z-index: 1;
- top: 5rem;
- border-radius: 20px;
-  position: absolute;
-
-  transform: translateX(-50%);
-padding: 10px 20px;
-background-color: rgb(199, 216, 228);
-
-
-color: #000000;
- 
- 
-  left: 15rem;
-cursor: pointer;
- 
-
-}
- 
 
   .car {
-    width: 35px; /* Make the car even smaller */
+    width: 35px;
+    /* Make the car even smaller */
     height: 70px;
   }
 
@@ -236,33 +252,35 @@ cursor: pointer;
     height: 35px;
   }
 
-  
+
   .score {
-    font-size: 16px; /* Make the score font smaller */
+    font-size: 16px;
+    /* Make the score font smaller */
     top: 42rem;
   }
 
   .mobile-controls {
-    bottom: 10px; /* Adjust position of controls on very small screens */
+    bottom: 10px;
+    /* Adjust position of controls on very small screens */
   }
 }
 
-.App h1{
+.App h1 {
 
- text-align: center;
+  text-align: center;
 }
 
 .App p {
   text-align: center;
- }
+}
 
- .App h3 {
+.App h3 {
 
   color: rgb(3, 23, 51);
   text-align: center;
- }
+}
 
 
- .App a{
+.App a {
   text-decoration: none;
- }
+}
